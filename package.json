@@ -1,7 +1,10 @@
 {
   "name": "n4Notifications",
   "version": "0.0.1",
-  "main": "src/n4Notifications.js",
+  "main": [
+    "dist/n4notifications.js",
+    "dist/n4notifications.css"
+  ],
   "scripts":
   {
     "test": "gulp coverage"
