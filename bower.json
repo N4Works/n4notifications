@@ -1,8 +1,8 @@
 {
   "name": "n4Notifications",
   "main": [
-    "dist/n4Notifications.min.js",
-    "dist/n4Notifications.min.css"
+    "dist/n4notifications.js",
+    "dist/n4notifications.css"
   ],
   "version": "0.0.1",
   "homepage": "https://github.com//n4Notifications",

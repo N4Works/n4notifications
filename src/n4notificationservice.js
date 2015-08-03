@@ -6,27 +6,44 @@
     .module('n4Notifications.services', ['n4Notifications.models'])
     .service('n4NotificationsService', [
       'N4NotificationModel',
-      function (N4NotificationModel) {
+      '$q',
+      '$timeout',
+      function (N4NotificationModel, $q, $timeout) {
         var N4NotificationsService = function () {
           this.notifications = [];
         };
 
         N4NotificationsService.prototype = {
           notify: function (template, message, primaryButtonText, secondaryButtonText, callback) {
-            var self = this;
-            this.notifications.unshift(new N4NotificationModel({
-              template: template,
-              message: message,
-              primaryButtonText: primaryButtonText,
-              secondaryButtonText: secondaryButtonText,
-              callback: function (selected) {
-                self.notifications.splice(self.notifications.indexOf(this), 1);
+            var self = this,
+              deferred = $q.defer(),
+              notification = new N4NotificationModel({
+                template: template,
+                message: message,
+                primaryButtonText: primaryButtonText,
+                secondaryButtonText: secondaryButtonText,
+                callback: function (selected) {
+                  self.notifications.splice(self.notifications.indexOf(this), 1);
 
-                if (!!callback) {
-                  callback(selected);
+                  selected = selected || this.primaryButtonText;
+
+                  if (!!callback) {
+                    callback(selected);
+                  }
+
+                  deferred.resolve(selected);
                 }
-              }
-            }));
+              });
+
+            if (!secondaryButtonText) {
+              $timeout(function () {
+                notification.callback(primaryButtonText);
+              }, 15000);
+            }
+
+            this.notifications.unshift(notification);
+
+            return deferred.promise;
           },
           notifySuccess: function (message, primaryButtonText, secondaryButtonText, callback) {
             this.notify('success.html', message, primaryButtonText, secondaryButtonText, callback);

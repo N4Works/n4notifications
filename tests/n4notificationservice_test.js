@@ -1,11 +1,13 @@
 'use strict';
 
 describe('n4Notifications.services', function () {
-  var service;
+  var timeout, scope, service;
 
   beforeEach(module('n4Notifications.services'));
 
-  beforeEach(inject(function (n4NotificationsService) {
+  beforeEach(inject(function ($timeout, $rootScope, n4NotificationsService) {
+    timeout = $timeout;
+    scope = $rootScope;
     service = n4NotificationsService;
   }));
 
@@ -123,6 +125,48 @@ describe('n4Notifications.services', function () {
       notification.callback();
       expect(service.notifications.length).toBe(0);
       expect(callback).toHaveBeenCalled();
+    });
+
+    it('Should return a promise when notify', function () {
+      var callback = jasmine.createSpy(),
+        notification;
+      expect(service.notifications.length).toBe(0);
+      var promise = service.notify('success.html', 'message', 'primaryButton', 'secondaryButton', callback);
+
+      expect(promise).toBeDefined();
+      expect(service.notifications.length).toBe(1);
+      notification = service.notifications[0];
+      notification.callback();
+      expect(service.notifications.length).toBe(0);
+      expect(callback).toHaveBeenCalled();
+      promise.then(function (selected) {
+        expect(selected).toEqual('primaryButton');
+      });
+      scope.$apply();
+    });
+
+    it('Should call callback on timeout when user has no option', function () {
+      var callback = jasmine.createSpy();
+      expect(service.notifications.length).toBe(0);
+      var promise = service.notify('success.html', 'message', 'primaryButton', null, callback);
+
+      expect(service.notifications.length).toBe(1);
+      timeout.flush();
+      expect(callback).toHaveBeenCalledWith('primaryButton');
+      expect(service.notifications.length).toBe(0);
+      promise.then(function (selected) {
+        expect(selected).toEqual('primaryButton');
+      });
+      scope.$apply();
+    });
+
+    it('Should call callback on timeout when user has no option', function () {
+      var callback = jasmine.createSpy();
+      expect(service.notifications.length).toBe(0);
+      service.notify('success.html', 'message', 'primaryButton', 'secondaryButton', callback);
+
+      expect(service.notifications.length).toBe(1);
+      expect(timeout.flush).toThrow();
     });
   });
 });
