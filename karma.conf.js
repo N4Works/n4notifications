@@ -35,9 +35,7 @@ var _karma = function(config)
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-      'src/n4notificationmodel.js': 'coverage',
-      'src/n4notificationservice.js': 'coverage',
-      'src/n4notificationsdirective.js': 'coverage'
+      'src/**/*.js': 'coverage'
     },
 
     coverageReporter:
