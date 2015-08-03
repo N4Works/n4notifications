@@ -28,12 +28,12 @@
   transition: all 0.5s ease;
 }
 
-.notification.animation-enter {
+.notification.animate-enter {
   transform: translateX(0%);
   opacity: 1;
 }
 
-.notification.animation-leave {
+.notification.animate-enter {
   transform: translateX(100%);
   opacity: 0;
 }
