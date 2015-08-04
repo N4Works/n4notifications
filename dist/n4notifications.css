@@ -33,7 +33,7 @@
   opacity: 1;
 }
 
-.notification.animate-enter {
+.notification.animate-leave {
   transform: translateX(100%);
   opacity: 0;
 }
