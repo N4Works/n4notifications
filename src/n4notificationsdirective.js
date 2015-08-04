@@ -50,7 +50,6 @@
           link: function (scope, element, attributes) {
             var $element = $compile($templateCache.get(attributes.template).trim())(scope);
             element.replaceWith($element);
-            element.attr('ng-animate', '{enter: \'animate-enter\', leave: \'animate-leave\'}');
           }
         };
       }])
