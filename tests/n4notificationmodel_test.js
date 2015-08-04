@@ -12,6 +12,7 @@ describe('n4Notifications.models', function () {
     it('Should have the right values for the instance\'s props', inject(function (N4NotificationModel) {
       var notification = new N4NotificationModel();
 
+      expect(notification.type).toBe('information');
       expect(notification.message).toBeNull();
       expect(notification.primaryButtonText).toBeNull();
       expect(notification.secondaryButtonText).toBeNull();
@@ -22,6 +23,7 @@ describe('n4Notifications.models', function () {
       var callback = function () {
         },
         notification = new N4NotificationModel({
+          type: 'alert',
           message: 'message',
           primaryButtonText: 'primaryButton',
           secondaryButtonText: 'secondaryButton',
@@ -29,6 +31,7 @@ describe('n4Notifications.models', function () {
         });
 
       expect(angular.isDefined(notification)).toBeTruthy();
+      expect(notification.type).toBe('alert');
       expect(notification.message).toBe('message');
       expect(notification.primaryButtonText).toBe('primaryButton');
       expect(notification.secondaryButtonText).toBe('secondaryButton');

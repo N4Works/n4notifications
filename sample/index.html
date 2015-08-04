@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html ng-app="sample">
+<head lang="en">
+  <meta charset="UTF-8">
+  <title></title>
+  <link rel="stylesheet" href="../src/n4notifications.css"/>
+</head>
+<body ng-controller="rootController as rootCtrl">
+<button ng-click="rootCtrl.notify()">Add notification</button>
+<n4-notifications></n4-notifications>
+
+<script src="../bower_components/angular/angular.js"></script>
+<script src="../bower_components/angular-animate/angular-animate.js"></script>
+<script src="../src/n4notifications.js"></script>
+<script src="../src/n4notificationmodel.js"></script>
+<script src="../src/n4notificationservice.js"></script>
+<script src="../src/n4notificationsdirective.js"></script>
+<script>
+  'use strict';
+
+  angular.module('sample', ['ngAnimate','n4Notifications'])
+    .controller('rootController', function (n4NotificationsService) {
+      this.notify = function () {
+        n4NotificationsService.notifyInformation('Test', 'Ok');
+        n4NotificationsService.notifyAlert('Test', 'Ok');
+        n4NotificationsService.notifySuccess('Test', 'Ok', 'Undo', function (selector) {
+          console.log(selector + ' -> callback');
+        }).then(function (selector) {
+            console.log(selector + ' -> promise');
+          });
+      }
+    });
+</script>
+</body>
+</html>

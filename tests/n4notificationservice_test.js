@@ -25,7 +25,7 @@ describe('n4Notifications.services', function () {
       expect(service.notifications.length).toBe(1);
       var notification = service.notifications[0];
       expect(notification).toBeDefined();
-      expect(notification.template).toBe('success.html');
+      expect(notification.type).toBe('success');
       expect(notification.message).toBe('message');
       expect(notification.primaryButtonText).toBe('primaryButton');
       expect(notification.secondaryButtonText).toBe('secondaryButton');
@@ -39,7 +39,7 @@ describe('n4Notifications.services', function () {
       expect(service.notifications.length).toBe(1);
       var notification = service.notifications[0];
       expect(notification).toBeDefined();
-      expect(notification.template).toBe('information.html');
+      expect(notification.type).toBe('information');
       expect(notification.message).toBe('message');
       expect(notification.primaryButtonText).toBe('primaryButton');
       expect(notification.secondaryButtonText).toBe(null);
@@ -53,21 +53,21 @@ describe('n4Notifications.services', function () {
       expect(service.notifications.length).toBe(1);
       var notification = service.notifications[0];
       expect(notification).toBeDefined();
-      expect(notification.template).toBe('alert.html');
+      expect(notification.type).toBe('alert');
       expect(notification.message).toBe('message');
       expect(notification.primaryButtonText).toBe('primaryButton');
       expect(notification.secondaryButtonText).toBe('secondaryButton');
       expect(notification.callback).toBeDefined();
     });
 
-    it('Should be able to notify choosing manually the template', function () {
+    it('Should be able to notify choosing manually the type', function () {
       expect(service.notifications.length).toBe(0);
-      service.notify('success.html', 'message', 'primaryButton', 'secondaryButton', null);
+      service.notify('success', 'message', 'primaryButton', 'secondaryButton', null);
 
       expect(service.notifications.length).toBe(1);
       var notification = service.notifications[0];
       expect(notification).toBeDefined();
-      expect(notification.template).toBe('success.html');
+      expect(notification.type).toBe('success');
       expect(notification.message).toBe('message');
       expect(notification.primaryButtonText).toBe('primaryButton');
       expect(notification.secondaryButtonText).toBe('secondaryButton');
@@ -106,7 +106,7 @@ describe('n4Notifications.services', function () {
 
     it('Should be able to close a notification', function () {
       expect(service.notifications.length).toBe(0);
-      service.notify('success.html', 'message', 'primaryButton', 'secondaryButton', null);
+      service.notify('success', 'message', 'primaryButton', 'secondaryButton', null);
 
       expect(service.notifications.length).toBe(1);
       var notification = service.notifications[0];
@@ -118,7 +118,7 @@ describe('n4Notifications.services', function () {
       var callback = jasmine.createSpy(),
         notification;
       expect(service.notifications.length).toBe(0);
-      service.notify('success.html', 'message', 'primaryButton', 'secondaryButton', callback);
+      service.notify('success', 'message', 'primaryButton', 'secondaryButton', callback);
 
       expect(service.notifications.length).toBe(1);
       notification = service.notifications[0];
@@ -131,7 +131,61 @@ describe('n4Notifications.services', function () {
       var callback = jasmine.createSpy(),
         notification;
       expect(service.notifications.length).toBe(0);
-      var promise = service.notify('success.html', 'message', 'primaryButton', 'secondaryButton', callback);
+      var promise = service.notify('success', 'message', 'primaryButton', 'secondaryButton', callback);
+
+      expect(promise).toBeDefined();
+      expect(service.notifications.length).toBe(1);
+      notification = service.notifications[0];
+      notification.callback();
+      expect(service.notifications.length).toBe(0);
+      expect(callback).toHaveBeenCalled();
+      promise.then(function (selected) {
+        expect(selected).toEqual('primaryButton');
+      });
+      scope.$apply();
+    });
+
+    it('Should return a promise when notify information', function () {
+      var callback = jasmine.createSpy(),
+        notification;
+      expect(service.notifications.length).toBe(0);
+      var promise = service.notifyInformation('message', 'primaryButton', callback);
+
+      expect(promise).toBeDefined();
+      expect(service.notifications.length).toBe(1);
+      notification = service.notifications[0];
+      notification.callback();
+      expect(service.notifications.length).toBe(0);
+      expect(callback).toHaveBeenCalled();
+      promise.then(function (selected) {
+        expect(selected).toEqual('primaryButton');
+      });
+      scope.$apply();
+    });
+
+    it('Should return a promise when notify alert', function () {
+      var callback = jasmine.createSpy(),
+        notification;
+      expect(service.notifications.length).toBe(0);
+      var promise = service.notifyAlert('message', 'primaryButton', 'secondaryButton', callback);
+
+      expect(promise).toBeDefined();
+      expect(service.notifications.length).toBe(1);
+      notification = service.notifications[0];
+      notification.callback();
+      expect(service.notifications.length).toBe(0);
+      expect(callback).toHaveBeenCalled();
+      promise.then(function (selected) {
+        expect(selected).toEqual('primaryButton');
+      });
+      scope.$apply();
+    });
+
+    it('Should return a promise when notify success', function () {
+      var callback = jasmine.createSpy(),
+        notification;
+      expect(service.notifications.length).toBe(0);
+      var promise = service.notifySuccess('message', 'primaryButton', 'secondaryButton', callback);
 
       expect(promise).toBeDefined();
       expect(service.notifications.length).toBe(1);
@@ -148,7 +202,7 @@ describe('n4Notifications.services', function () {
     it('Should call callback on timeout when user has no option', function () {
       var callback = jasmine.createSpy();
       expect(service.notifications.length).toBe(0);
-      var promise = service.notify('success.html', 'message', 'primaryButton', null, callback);
+      var promise = service.notify('success', 'message', 'primaryButton', null, callback);
 
       expect(service.notifications.length).toBe(1);
       timeout.flush();
@@ -160,12 +214,23 @@ describe('n4Notifications.services', function () {
       scope.$apply();
     });
 
-    it('Should call callback on timeout when user has no option', function () {
+    it('Should not create timeout when user has options', function () {
       var callback = jasmine.createSpy();
       expect(service.notifications.length).toBe(0);
-      service.notify('success.html', 'message', 'primaryButton', 'secondaryButton', callback);
+      service.notify('success', 'message', 'primaryButton', 'secondaryButton', callback);
 
       expect(service.notifications.length).toBe(1);
+      expect(timeout.flush).toThrow();
+    });
+
+    it('Should cancel timeout when callback is called', function () {
+      var callback = jasmine.createSpy();
+      expect(service.notifications.length).toBe(0);
+      service.notify('success', 'message', 'primaryButton', 'secondaryButton', callback);
+
+      expect(service.notifications.length).toBe(1);
+      var notification = service.notifications[0];
+      notification.callback();
       expect(timeout.flush).toThrow();
     });
   });
