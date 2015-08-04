@@ -24,6 +24,7 @@
 (function (ng) {
   ng
     .module('n4Notifications', [
+      'ngAnimate',
       'n4Notifications.directives',
       'n4Notifications.models',
       'n4Notifications.services'
@@ -35,7 +36,7 @@
 ;
 (function (ng) {
   ng
-    .module('n4Notifications.directives', ['n4Notifications.models', 'n4Notifications.services'])
+    .module('n4Notifications.directives', ['ngAnimate', 'n4Notifications.models', 'n4Notifications.services'])
     .run([
       '$templateCache',
       function ($templateCache) {
