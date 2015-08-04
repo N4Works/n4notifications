@@ -83,6 +83,7 @@
           link: function (scope, element, attributes) {
             var $element = $compile($templateCache.get(attributes.template).trim())(scope);
             element.replaceWith($element);
+            element.attr('ng-animate', '{enter: \'animate-enter\', leave: \'animate-leave\'}');
           }
         };
       }])
@@ -95,7 +96,7 @@
           scope: {},
           template: [
             '<div class="notifications">',
-            '  <n4-notification ng-attr-template="{{notification.template}}" data-ng-repeat="notification in service.notifications" ng-animate="{enter: \'animate-enter\', leave: \'animate-leave\'}"></n4-notification>',
+            '  <n4-notification ng-attr-template="{{notification.template}}" data-ng-repeat="notification in service.notifications"></n4-notification>',
             '</div>'
           ].join(''),
           link: function (scope) {
