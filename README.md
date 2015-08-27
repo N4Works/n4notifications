@@ -43,9 +43,9 @@ angular.module('sample', ['ngAnimate','n4Notifications'])
     });
 ```
 
-- notifySuccess: first parameter is the message, second is the text for primary button, third, text for secondary button, callback method, where the argument is the text of the chosen button.
-- notifyAlert: first parameter is the message, second is the text for primary button, third, text for secondary button, callback method, where the argument is the text of the chosen button.
-- notifyInformation: first parameter is the message, second is the text for the button, and third is the callback method.
+- *notifySuccess:* first parameter is the message, second is the text for primary button, third, text for secondary button, callback method, where the argument is the text of the chosen button.
+- *notifyAlert:* first parameter is the message, second is the text for primary button, third, text for secondary button, callback method, where the argument is the text of the chosen button.
+- *notifyInformation:* first parameter is the message, second is the text for the button, and third is the callback method.
 - Every method returns a promise, so, you don't have to use the callback method.
 - Messages with one option, would be visible just for 15 seconds.
 
