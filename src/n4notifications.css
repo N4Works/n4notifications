@@ -23,6 +23,11 @@
   transition: all ease .4s;
 }
 
+/* Fix for Bootstrap */
+.notifications *, .notifications *:before, .notifications *:after {
+    box-sizing: content-box;
+}
+
 .notification.ng-enter,
 .notification.ng-leave.ng-leave-active{
   opacity:0;

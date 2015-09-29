@@ -1,6 +1,6 @@
 {
   "name": "n4Notifications",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "main": [
     "dist/n4notifications.js",
     "dist/n4notifications.css"
