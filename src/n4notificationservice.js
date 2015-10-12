@@ -1,20 +1,20 @@
-"use strict";
-
 ;
-(function (ng) {
+(function(ng) {
+  "use strict";
+
   ng
-    .module('n4Notifications.services', ['n4Notifications.models'])
-    .service('n4NotificationsService', [
-      'N4NotificationModel',
-      '$q',
-      '$timeout',
-      function (N4NotificationModel, $q, $timeout) {
-        var N4NotificationsService = function () {
+    .module("n4Notifications.services", ["n4Notifications.models"])
+    .service("n4NotificationsService", [
+      "N4NotificationModel",
+      "$q",
+      "$timeout",
+      function(N4NotificationModel, $q, $timeout) {
+        var N4NotificationsService = function() {
           this.notifications = [];
         };
 
         N4NotificationsService.prototype = {
-          notify: function (type, message, primaryButtonText, secondaryButtonText, callback) {
+          notify: function(type, message, primaryButtonText, secondaryButtonText, callback) {
             var self = this,
               timeout,
               deferred = $q.defer(),
@@ -23,7 +23,7 @@
                 message: message,
                 primaryButtonText: primaryButtonText,
                 secondaryButtonText: secondaryButtonText,
-                callback: function (selected) {
+                callback: function(selected) {
                   $timeout.cancel(timeout);
 
                   self.notifications.splice(self.notifications.indexOf(this), 1);
@@ -39,7 +39,7 @@
               });
 
             if (!secondaryButtonText) {
-              timeout = $timeout(function () {
+              timeout = $timeout(function() {
                 notification.callback(primaryButtonText);
               }, 15000);
             }
@@ -48,17 +48,18 @@
 
             return deferred.promise;
           },
-          notifySuccess: function (message, primaryButtonText, secondaryButtonText, callback) {
-            return this.notify('success', message, primaryButtonText, secondaryButtonText, callback);
+          notifySuccess: function(message, primaryButtonText, secondaryButtonText, callback) {
+            return this.notify("success", message, primaryButtonText, secondaryButtonText, callback);
           },
-          notifyInformation: function (message, primaryButtonText, callback) {
-            return this.notify('information', message, primaryButtonText, null, callback);
+          notifyInformation: function(message, primaryButtonText, callback) {
+            return this.notify("information", message, primaryButtonText, null, callback);
           },
-          notifyAlert: function (message, primaryButtonText, secondaryButtonText, callback) {
-            return this.notify('alert', message, primaryButtonText, secondaryButtonText, callback);
+          notifyAlert: function(message, primaryButtonText, secondaryButtonText, callback) {
+            return this.notify("alert", message, primaryButtonText, secondaryButtonText, callback);
           }
         };
 
         return new N4NotificationsService();
-      }]);
-}(angular))
+      }
+    ]);
+}(angular));
