@@ -1,10 +1,10 @@
 {
-  "name": "n4Notifications",
+  "name": "n4-notifications-directive",
   "main": [
     "dist/n4notifications.js",
     "dist/n4notifications.css"
   ],
-  "version": "1.0.2",
+  "version": "1.0.3",
   "homepage": "https://github.com//n4Notifications",
   "authors": [
     "N4Works <contato@n4works.com>"
