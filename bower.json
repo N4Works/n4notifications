@@ -27,11 +27,11 @@
   ],
   "dependencies": {
     "angular": ">=1.3.17",
-    "n4Notifications": "n4-notifications-directive#~1.0.2"
+    "n4Notifications": "n4-notifications-directive#~1.0.2",
+    "angular-animate": "~1.4.3"
   },
   "devDependencies": {
     "angular-mocks": ">=1.3.17",
-    "jquery": "~2.1.4",
-    "angular-animate": "~1.4.3"
+    "jquery": "~2.1.4"
   }
 }
