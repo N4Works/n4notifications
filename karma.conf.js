@@ -72,7 +72,7 @@ var _karma = function(config)
 
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: ['PhantomJS', 'Chrome', 'IE', 'Safari', 'Firefox', 'FirefoxNightly', 'ChromeCanary'],
+    browsers: ['Chrome', 'IE', 'Safari', 'Firefox', 'FirefoxNightly', 'ChromeCanary'],
 
 
     // Continuous Integration mode

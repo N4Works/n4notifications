@@ -49,13 +49,13 @@
             return deferred.promise;
           },
           notifySuccess: function(message, primaryButtonText, secondaryButtonText, callback) {
-            return this.notify("success", message, primaryButtonText, secondaryButtonText, callback);
+            return this.notify("success", message, primaryButtonText || 'Ok', secondaryButtonText, callback);
           },
           notifyInformation: function(message, primaryButtonText, callback) {
-            return this.notify("information", message, primaryButtonText, null, callback);
+            return this.notify("information", message, primaryButtonText || 'Ok', null, callback);
           },
           notifyAlert: function(message, primaryButtonText, secondaryButtonText, callback) {
-            return this.notify("alert", message, primaryButtonText, secondaryButtonText, callback);
+            return this.notify("alert", message, primaryButtonText || 'Ok', secondaryButtonText, callback);
           }
         };
 
